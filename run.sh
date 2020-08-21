@@ -9,9 +9,9 @@ exchange_root="/srv/nbgrader/exchange"
 # List of possible users, used across all demos.
 possible_users=(
     'instructor1'
-    'instructor2'
-    'grader-course101'
-    'grader-course123'
+#    'instructor2'
+#    'grader-course101'
+#    'grader-course123'
     'student1'
 )
 
@@ -54,6 +54,23 @@ init_nbgrader () {
 }
 
 
+setup_jupyterhub () {
+    local jupyterhub_root="${1}"
+
+    echo "Setting up JupyterHub to run in '${jupyterhub_root}'"
+
+    # Ensure JupyterHub directory exists.
+    setup_directory ${jupyterhub_root}
+
+    # Delete old files, if they are there.
+    rm -f "${jupyterhub_root}/jupyterhub.sqlite"
+    rm -f "${jupyterhub_root}/jupyterhub_cookie_secret"
+
+    # Copy config file.
+    cp jupyterhub_config.py "${jupyterhub_root}/jupyterhub_config.py"
+}
+
+
 setup_nbgrader () {
     USER="${1}"
     HOME="/home/${USER}"
@@ -92,6 +109,16 @@ create_course () {
 } 
 
     
+
+enable_create_assignment () {
+    jupyter=/opt/applications/python/3.6.3/gnu/bin/jupyter
+
+    USER="${1}"
+    HOME="/home/${USER}"
+    local runas="sudo -u ${USER}"
+
+    ${runas} ${jupyter} nbextension enable --user create_assignment/main
+}
 
 
 enable_formgrader () { 
@@ -135,23 +162,67 @@ enable_course_list () {
     ${runas} ${jupyter} serverextension enable --user nbgrader.server_extensions.course_list 
 }
 
+make_user () {
+    local user="${1}"
+    echo "Creating user '${user}'"
+    useradd "${user}"
+    yes "${user}" | passwd "${user}"
+    mkdir "/home/${user}"
+    chown "${user}:${user}" "/home/${user}"
+}
 
-demo=demo_one_class_multiple_graders
+
+remove_user () {
+    local user="${1}"
+    echo "Removing user '${user}'"
+    userdel "${user}" || true
+    rm -rf "/home/${user}"
+}
+
+students=(student1 student2 student3)
+
+remove_user instructor1
+for student in ${students[@]}; do
+    remove_user "${student}"
+done
+
+#mkdir /home
+
+##########################################################
+
+#demo=demo_one_class_multiple_graders
+demo=demo_one_class_one_grader
+
+cd /root/${demo}
 
 setup_directory "${srv_root}" ugo+r
-install_nbgrader "${nbgrader_root}" "${exchange_root}"
+init_nbgrader "${nbgrader_root}" "${exchange_root}"
 
 # Setup the specific demo.
 echo "Setting up demo '${demo}'..."
 
 setup_jupyterhub "${jupyterhub_root}"
 
+##########################################################
+
 # We don't need to create users for existed instructors
-    make_user instructor1
-    make_user instructor2
-    make_user grader-course101
-    make_user student1
+make_user instructor1
+for student in ${students[@]}; do
+    make_user "${student}"
+done
 
+setup_nbgrader instructor1 instructor_nbgrader_config.py
 
-cp global_nbgrader_config.py /opt/applications/python/3.6.3/gnu/etc/jupyter/nbgrader_config.py
+create_course instructor1 course101
 
+##########################################################
+
+# Enable extensions for instructor.
+enable_create_assignment instructor1
+enable_formgrader instructor1
+enable_assignment_list instructor1
+
+# Enable extensions for student.
+for student in ${students[@]}; do
+    enable_assignment_list "${student}"
+done
