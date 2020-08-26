@@ -33,7 +33,7 @@ make_user instructor-abcb2020
 ```
 
 
-### Step 0a: modify nbgrader_config file
+### Step 0b: modify nbgrader_config file
 Modify nbgrader configuration files. Check the 2 files existed in this repo, they would be copied to the proper place by following scripts:
 - __instructor_nbgrader_config.py__ (used by `setup_nbgrader` function in __util.sh__)
 ```ruby
@@ -112,4 +112,4 @@ Note: Be careful not to include the `instructor-abcb2020` to the `students` list
 
 ### Maintenance: when new student join
 - Update the whitelist in __jupyterhub_config.py__
-- Rerun __Step 2__, __Step 3__, __Step 5__, and __Step 6__ (with corresponding __students__ list in Step 6.) 
+- Rerun __Step 0b__,  __Step 2__, __Step 3__, __Step 5__, and __Step 6__ (with corresponding __students__ list in Step 6.) 
