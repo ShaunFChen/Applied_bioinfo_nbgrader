@@ -99,7 +99,7 @@ enable_assignment_list instructor-abcb2020
 
 
 ### Step 6: enable assignment list for the students
-Update the student list whenever new students joining...
+Update the `students` list whenever new students joining...
 ```ruby
 students=(student1 student2 student3)
 
