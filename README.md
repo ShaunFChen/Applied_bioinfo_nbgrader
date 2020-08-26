@@ -34,7 +34,7 @@ make_user instructor-abcb2020
 
 
 ### Step 0b: modify nbgrader_config file
-Modify nbgrader configuration files. Check the 2 files existed in this repo, they would be copied to the proper place by following scripts:
+Modify nbgrader configuration files. Check the 2 files existed in this repo, they will be used in the following steps:
 - __instructor_nbgrader_config.py__ (used by `setup_nbgrader` function in __util.sh__)
 ```ruby
 c = get_config()
