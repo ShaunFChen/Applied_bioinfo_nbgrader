@@ -14,7 +14,7 @@ The instruction was tested on `flexlm` node with following required software and
     
   
 ## How to run
-Run the following command as `root`. `cd` to this folder. By default we will create a course named `abcb2020` with an single instructor named `instructor-abcb2020`.
+Run the following command as `root`. `git clone` and `cd` to this folder. By default we will create a course named `abcb2020` with an single instructor named `instructor-abcb2020`.
 
 
 ### Step 0a: create an instructor account
