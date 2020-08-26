@@ -107,9 +107,9 @@ for student in ${students[@]}; do
     enable_assignment_list "${student}"
 done
 ```
-Note: Be careful not to include the `instructor-abcb2020` to the `students` list, if so, rerun from __Step 2__ but skip __Step 4__. 
+Note: Be careful not to include the `instructor-abcb2020` to the `students` list, if so, update the proper lists and rerun from __Step 2/3/5/6__. 
 
 
 ### Maintenance: when new student join
 - Update the whitelist in __jupyterhub_config.py__
-- Rerun __Step 0b__,  __Step 2__, __Step 3__, __Step 5__, and __Step 6__ (with corresponding __students__ list in Step 6.) 
+- Rerun __Step 0b__,  __Step 2__, __Step 3__, __Step 5__, and __Step 6__ (with corresponding `students` list in Step 6.) 
