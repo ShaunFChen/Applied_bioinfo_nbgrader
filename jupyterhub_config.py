@@ -1,7 +1,7 @@
 c = get_config()
 
 c.Authenticator.whitelist = [
-    'instructor1',
+    'instructor-abcb2020',
     'student1',
     'student2',
     'student3'
