@@ -112,4 +112,4 @@ Note: Be careful not to include the `instructor-abcb2020` to the `students` list
 
 ### Maintenance: when new student join
 - Update the whitelist in __jupyterhub_config.py__
-- Rerun __Step 0b__,  __Step 2__, __Step 3__, __Step 5__, and __Step 6__ (with corresponding `students` list in Step 6.) 
+- Rerun __Step 0b__ (remember to update the whitelist),  __Step 2__, __Step 3__, __Step 5__, and __Step 6__ (with corresponding `students` list in Step 6.) 
